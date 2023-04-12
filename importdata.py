@@ -1,5 +1,5 @@
 import json
-from flask import request
+import flask
 import pyodbc
 server = 'MSI\SQLEXPRESS'
 database = 'NETFarm'

@@ -1,3 +1,4 @@
+import threading
 from flask import Flask, render_template, request
 import subprocess
 import random
@@ -9,6 +10,8 @@ from nltk.stem import WordNetLemmatizer
 from urllib import response
 from flask_cors import CORS, cross_origin
 import nltk
+import schedule
+import time
 nltk.download('popular')
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')
@@ -68,21 +71,36 @@ def getResponse(ints, intents_json):
     return result
 
 
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
 def chatbot_response(msg):
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
     return res
 
-# def run_file():
-#     subprocess.run(["python", "importdata.py"])
 
-# # Hàm để đặt lịch chạy các file sau mỗi 30 phút
+def run_file(file_name):
+    subprocess.run(["python", file_name])
+
+
+# schedule.every(1).minutes.do(run_file)
+# Hàm để đặt lịch chạy các file sau mỗi 30 phút
+
+
 # def schedule_files(file_list):
 #     for file_name in file_list:
-#         schedule.every(3).minutes.do(run_file, file_name)
+#         schedule.every(1).minutes.do(run_file(file_name))
+
 
 # file_list = ["importdata.py", "mergedata.py", "training.py"]
 # schedule_files(file_list)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
 
 
 app = Flask(__name__)
@@ -93,12 +111,13 @@ app.static_folder = 'static'
 @app.route("/")
 def home():
     return render_template("index.html")
-# @app.got_first_request
-# def run_on_start():
-#     schedule.every(3).minutes.do(run_file)
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(1)
+
+
+# @app.before_first_request
+# def start_scheduler():
+
+#     thread = threading.Thread(target=run_scheduler)
+#     thread.start()
 
 
 @app.route("/get")
