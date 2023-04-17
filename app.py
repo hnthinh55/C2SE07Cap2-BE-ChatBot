@@ -12,6 +12,9 @@ from flask_cors import CORS, cross_origin
 import nltk
 import schedule
 import time
+import json
+from flask import Flask
+import pyodbc
 nltk.download('popular')
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')

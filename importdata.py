@@ -1,7 +1,7 @@
 import json
-import flask
+from flask import Flask
 import pyodbc
-server = 'MSI\SQLEXPRESS'
+server = '.'
 database = 'NETFarm'
 username = 'NETFarm'
 password = 'password'
