@@ -83,7 +83,7 @@ def ChamSoc():
 
     root_element = {"intents": data}
 
-    with open("cham_soc.json", "w") as outfile:
+    with open("./data/cham_soc.json", "w") as outfile:
         json.dump(root_element, outfile)    
     return "Data saved to cham_soc.json"
 k = ChamSoc()
@@ -122,7 +122,7 @@ def ThuHoach() :
         })
     root_element = {"intents": data}
 
-    with open("thu_hoach.json", "w") as outfile:
+    with open("./data/thu_hoach.json", "w") as outfile:
         json.dump(root_element, outfile)    
     return "Data saved to thu_hoach.json"
 k = ThuHoach()
@@ -175,7 +175,7 @@ def APICounseling_CayCon():
         })
     root_element = {"intents": data}
 
-    with open("cay_con.json", "w") as outfile:
+    with open("./data/cay_con.json", "w") as outfile:
         json.dump(root_element, outfile)    
     return "Data saved to cay_con.json"
 k = APICounseling_CayCon()
@@ -242,7 +242,7 @@ def TrongTrot():
         })
     root_element = {"intents": data}
 
-    with open("trong_trot.json", "w") as outfile:
+    with open("./data/trong_trot.json", "w") as outfile:
         json.dump(root_element, outfile)    
     return "Data saved to trong_trot.json"
 k = TrongTrot()
