@@ -70,6 +70,8 @@ for row in cham_soc:
         }
         list_gieo_trong.append(obj)
 cnxn.close()
+
+#Cham soc
 def ChamSoc():
     prefixes = ["Hôm nay tôi có thể", "Khi nào tôi có thể", "Trong những ngày tới tôi có thể", "Thời điểm thích hợp để"]
     data = []
@@ -88,6 +90,8 @@ def ChamSoc():
     return "Data saved to cham_soc.json"
 k = ChamSoc()
 print(k)
+
+#Thu hoach
 def ThuHoach() :
     weatherlist = sorted(list_weather, key=lambda x: x['_id'])
     
@@ -117,7 +121,7 @@ def ThuHoach() :
         data.append({
             "tag": counseling['StageName'].replace(" ", "_")+'_'+counseling['StandardName'].replace(" ", "_"),
             "patterns": [prefixes[0]+' '+counseling['StageName']+' '+counseling['StandardName'], prefixes[1]+' '+counseling['StageName']+' '+counseling['StandardName'], prefixes[2]+' '+counseling['StageName']+' '+counseling['StandardName']],
-            "responses": ['<p style=\"text-align:center; font-weight:bold\">'+counseling['StandardName'] +' trong giai đoạn này bạn nên: '+' '+ api['result']],
+            "responses": [api['result']],
             "context": []
         })
     root_element = {"intents": data}
