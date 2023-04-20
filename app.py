@@ -14,7 +14,7 @@ import schedule
 import time
 import json
 from flask import Flask
-import pyodbc
+
 nltk.download('popular')
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')
@@ -74,36 +74,25 @@ def getResponse(ints, intents_json):
     return result
 
 
-def run_scheduler():
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
 
 def chatbot_response(msg):
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
     return res
 
+def run_scheduler():
+    print("Scheduler is running...")
+    # thực hiện các tác vụ cần lập lịch ở đây
+    import weather
+    import apiservice
+    import mergedata
+    import training
 
-def run_file(file_name):
-    subprocess.run(["python", file_name])
-
-
-# schedule.every(1).minutes.do(run_file)
-# Hàm để đặt lịch chạy các file sau mỗi 30 phút
-
-
-# def schedule_files(file_list):
-#     for file_name in file_list:
-#         schedule.every(1).minutes.do(run_file(file_name))
-
-
-# file_list = ["importdata.py", "mergedata.py", "training.py"]
-# schedule_files(file_list)
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+def start_scheduler():
+    schedule.every(5).minutes.do(run_scheduler) # lập lịch chạy hàm mỗi 5 phút
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
 app = Flask(__name__)
@@ -116,11 +105,11 @@ def home():
     return render_template("index.html")
 
 
-# @app.before_first_request
-# def start_scheduler():
+@app.before_first_request
+def start_scheduler():
 
-#     thread = threading.Thread(target=run_scheduler)
-#     thread.start()
+    thread = threading.Thread(target=run_scheduler)
+    thread.start()
 
 
 @app.route("/get")

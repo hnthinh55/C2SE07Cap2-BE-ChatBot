@@ -21,14 +21,14 @@ today = datetime.now()
 getToday = datetime.strftime(today, '%d/%m/%Y')
 for result in list_weather:
     if getToday == datetime.strftime(result['DateTime'], '%d/%m/%Y'):
-        kq = f"<p><strong>Báo cáo thời tiết ngày {datetime.strftime(result['DateTime'], '%d/%m/%Y')} </strong>:</br>-	Tổng quan:{result['Description']} </br>-	Nhiệt độ cao nhất: {result['minTemp']}</br>-	Nhiệt độ thấp nhất: {result['minTemp']} </br>-	Độ ẩm: {result['humidity']}</br>-	Tốc độ gió:{result['wind']} </br>-	Lượng mưa:{result['Rain']} </br></p>"
+        kq = f"<p><strong>Báo cáo thời tiết ngày {datetime.strftime(result['DateTime'], '%d/%m/%Y')} </strong>:</br>-	Tổng quan:{result['Description']} </br>-	Nhiệt độ cao nhất: {result['maxTemp']}</br>-	Nhiệt độ thấp nhất: {result['minTemp']} </br>-	Độ ẩm: {result['humidity']}</br>-	Tốc độ gió:{result['wind']} </br>-	Lượng mưa:{result['Rain']} </br></p>"
         data.append({
             "tag": tag.replace(" ", "_"),
             "patterns": [prefixes[0], prefixes[1], prefixes[2]],
             "responses": [kq],
             "context": []
         })
-    kqtmp += f"<p><strong>Báo cáo thời tiết ngày {datetime.strftime(result['DateTime'], '%d/%m/%Y')} </strong> :</br>-	Tổng quan:{result['Description']} </br>-	Nhiệt độ cao nhất: {result['minTemp']} độ C</br>-	Nhiệt độ thấp nhất: {result['minTemp']} độ C</br>-	Độ ẩm: {result['humidity']}%</br>-	Tốc độ gió:{result['wind']} m/s</br>-	Lượng mưa:{result['Rain']} mm</br></p>"
+    kqtmp += f"<p><strong>Báo cáo thời tiết ngày {datetime.strftime(result['DateTime'], '%d/%m/%Y')} </strong> :</br>-	Tổng quan:{result['Description']} </br>-	Nhiệt độ cao nhất: {result['maxTemp']} độ C</br>-	Nhiệt độ thấp nhất: {result['minTemp']} độ C</br>-	Độ ẩm: {result['humidity']}%</br>-	Tốc độ gió:{result['wind']} m/s</br>-	Lượng mưa:{result['Rain']} mm</br></p>"
 
 data.append({
         "tag": tagAll.replace(" ", "_"),
@@ -42,3 +42,4 @@ with open("./data/weather.json", "w") as outfile:
     json.dump(root_element, outfile)
 
 print("Data saved to weather.json")
+

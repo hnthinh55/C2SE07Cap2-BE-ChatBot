@@ -134,16 +134,16 @@ print(k)
 
 def check_day(goodDay,hotDate,warningDay):
     api=""
-    hotDay = ",".join(hotDate)
-    good = ",".join(goodDay)
-    warning = ",".join(warningDay)
+    hotDay = ", ".join(hotDate)
+    good = ", ".join(goodDay)
+    warning = ", ".join(warningDay)
     if len(goodDay) == 6:
         api += f"<span style='color:red; font-weight:bold; font-size:20px'>Lưu ý :</span><br/><span style='font-style:italic'>Trong 7 ngày tiếp theo thời tiết thuận lợi cho việc bón phân.</span>"
     elif len(goodDay) > 0:
         api += f"<span style='font-weight:bold; font-size:20px'>Lưu ý :</span><br/><span style='font-style:italic'>Nếu có ý định bón phân trong 7 ngày tiếp theo thì bạn nên bón vào ngày <span style='font-weight:bold;color:green;'>{good}</span>. </span>" + \
         f"<span style='font-style:italic'>Vì quá trình hấp thụ dinh dưỡng từ phân hữu cơ của cây chậm, khi gặp mưa, dinh dưỡng trong phân thường bị rửa trôi. Đặc biệt không nên bón phân hữu cơ.</span>"
     if hotDay != None and hotDay != "":
-        api += f"<span style='font-style:italic'>Nhiệt độ các ngày:<span style='font-weight:bold;color:green;'>{hotDay}</span> cũng khá cao, bạn nên bón phân vào sáng sớm hoặc vào chiều tối vì khi nắng quá gắt sẽ làm phân bón bốc hơi, kèm theo là có thể làm cháy lá hoặc hỏng lá</span>"
+        api += f"<span style='font-style:italic'>Nhiệt độ các ngày: <span style='font-weight:bold;color:green;'>{hotDay}</span> cũng khá cao, bạn nên bón phân vào sáng sớm hoặc vào chiều tối vì khi nắng quá gắt sẽ làm phân bón bốc hơi, kèm theo là có thể làm cháy lá hoặc hỏng lá</span>"
     if warning != None and warning != "":
         api += f"<span style='font-style:italic'>Người dân lưu ý:<span style='font-weight:bold;color:red;'>{warning}</span> là những ngày có gió mạnh, nguy cơ cao ảnh hưởng đến cây non </span>"
     else:
