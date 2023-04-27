@@ -14,7 +14,7 @@ import schedule
 import time
 import json
 from flask import Flask
-
+from apscheduler.schedulers.background import BackgroundScheduler
 nltk.download('popular')
 lemmatizer = WordNetLemmatizer()
 model = load_model('model.h5')
@@ -80,36 +80,22 @@ def chatbot_response(msg):
     res = getResponse(ints, intents)
     return res
 
-def run_scheduler():
-    print("Scheduler is running...")
-    # thực hiện các tác vụ cần lập lịch ở đây
-    import weather
-    import apiservice
-    import mergedata
-    import training
-
-def start_scheduler():
-    schedule.every(5).minutes.do(run_scheduler) # lập lịch chạy hàm mỗi 5 phút
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
 
 
 app = Flask(__name__)
 CORS(app)
 app.static_folder = 'static'
 
-
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-@app.before_first_request
-def start_scheduler():
+# @app.before_first_request
+# def start_scheduler():
 
-    thread = threading.Thread(target=run_scheduler)
-    thread.start()
+#     thread = threading.Thread(target=run_scheduler)
+#     thread.start()
 
 
 @app.route("/get")
