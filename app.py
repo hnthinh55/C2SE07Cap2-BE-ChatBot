@@ -13,6 +13,12 @@ import nltk
 import schedule
 import time
 import json
+import weather
+import apiservice
+import mergedata
+import training
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
 nltk.download('popular')
@@ -73,14 +79,30 @@ def getResponse(ints, intents_json):
             break
     return result
 
-
+def run_watchdog():
+    observer = Observer()
+    observer.schedule(FileChangedHandler(), path='.', recursive=True)
+    observer.start()
+    try:
+        while True:
+            time.sleep(180)  # Wait for 3 minutes
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.stop()
+    observer.join()
 
 def chatbot_response(msg):
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
     return res
 
-
+class FileChangedHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if event.is_directory:
+            return
+        print(f"{event.src_path} has been modified")
+        global model, intents
+        model, intents = load_model_and_intents()
 
 app = Flask(__name__)
 CORS(app)
@@ -91,12 +113,6 @@ def home():
     return render_template("index.html")
 
 
-# @app.before_first_request
-# def start_scheduler():
-
-#     thread = threading.Thread(target=run_scheduler)
-#     thread.start()
-
 
 @app.route("/get")
 @cross_origin(supports_credentials=True)
@@ -106,4 +122,11 @@ def get_bot_response():
 
 
 if __name__ == "__main__":
-    app.run()
+    observer = Observer()
+    observer.schedule(FileChangedHandler(), path='.', recursive=True)
+    observer.start()  # Stop after 1 hour
+
+    app.run(debug=True)
+
+    observer.stop()
+    observer.join()
