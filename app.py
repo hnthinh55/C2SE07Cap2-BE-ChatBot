@@ -79,17 +79,7 @@ def getResponse(ints, intents_json):
             break
     return result
 
-def run_watchdog():
-    observer = Observer()
-    observer.schedule(FileChangedHandler(), path='.', recursive=True)
-    observer.start()
-    try:
-        while True:
-            time.sleep(180)  # Wait for 3 minutes
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.stop()
-    observer.join()
+
 
 def chatbot_response(msg):
     ints = predict_class(msg, model)
@@ -101,8 +91,6 @@ class FileChangedHandler(FileSystemEventHandler):
         if event.is_directory:
             return
         print(f"{event.src_path} has been modified")
-        global model, intents
-        model, intents = load_model_and_intents()
 
 app = Flask(__name__)
 CORS(app)
@@ -124,8 +112,7 @@ def get_bot_response():
 if __name__ == "__main__":
     observer = Observer()
     observer.schedule(FileChangedHandler(), path='.', recursive=True)
-    observer.start()  # Stop after 1 hour
-
+    observer.start()
     app.run(debug=True)
 
     observer.stop()
