@@ -13,12 +13,13 @@ import nltk
 import schedule
 import time
 import json
-import weather
-import apiservice
-import mergedata
-import training
+# import weather
+# import apiservice
+# import mergedata
+# import training
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from flask_socketio import SocketIO, emit
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
 nltk.download('popular')
@@ -87,13 +88,50 @@ def chatbot_response(msg):
     return res
 
 class FileChangedHandler(FileSystemEventHandler):
+    def __init__(self):
+        self.updated = False
+        self.updating =False
+        super().__init__()
     def on_modified(self, event):
-        if event.is_directory:
-            return
-        print(f"{event.src_path} has been modified")
+        if event.src_path.endswith('data.json'):
+            print('data.json is modified')
+            if self.updating:
+                self.updating = False
+                print('data.json saved')
+                print('Stopping Flask API...')
+                subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True)
+                time.sleep(10)
+                print('Starting Flask API...')
+                subprocess.Popen('python app.py', shell= True)
+                print('"python app.py"')
+            else:
+                self.updating = True
+                print('data.json updating')
+    def on_closed(self, event):
+        if event.src_path.endswith('data.json') and self.updating:
+            self.updating =False
+            print('Stopping Flask API...')
+            subprocess.Popen('taskkill /f /fi "imagename eq python.exe"', shell=True)
+            time.sleep(1)
+            print('Starting Flask API...')
+            subprocess.Popen('python app.py', shell=True)
+            print('"python app.py"')
+def start_observer():
+    observer = Observer()
+    observer.schedule(FileChangedHandler(), path='E:\Chatbot-app\C2SE07Cap2-BE-ChatBot\\', recursive=True)
+    observer.start()
 
+    # Chạy observer trong khi Flask Server đang chạy
+    try:
+        while True:
+            observer.join(1)
+    except KeyboardInterrupt:
+        observer.stop()
+
+    observer.join()
 app = Flask(__name__)
 CORS(app)
+socket= SocketIO(app)
 app.static_folder = 'static'
 
 @app.route("/")
@@ -111,9 +149,9 @@ def get_bot_response():
 
 if __name__ == "__main__":
     observer = Observer()
-    observer.schedule(FileChangedHandler(), path='.', recursive=True)
+    observer.schedule(FileChangedHandler(), path='E:\Chatbot-app\C2SE07Cap2-BE-ChatBot\\', recursive=True)
     observer.start()
-    app.run(debug=True)
+    socket.run(app)
 
     observer.stop()
     observer.join()
