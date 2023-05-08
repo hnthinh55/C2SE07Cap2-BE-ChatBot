@@ -41,7 +41,7 @@ class FileChangedHandler(FileSystemEventHandler):
         if event.src_path.endswith('data.json') and self.updating:
             self.updating =False
             print('Stopping Flask API...')
-            subprocess.Popen('taskkill /f /fi "imagename eq python.exe"', shell=True)
+            subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True)
             time.sleep(1)
             print('Starting Flask API...')
             subprocess.Popen('python app.py', shell=True)
