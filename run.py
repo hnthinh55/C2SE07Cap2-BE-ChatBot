@@ -66,9 +66,9 @@ if __name__ == '__main__':
     # Dừng scheduler khi tắt Flask app
     atexit.register(lambda: scheduler.shutdown(wait=False))
     observer = Observer()
-    observer.schedule(FileChangedHandler(), path='E:\Chatbot-app\C2SE07Cap2-BE-ChatBot\\', recursive=True)
+    observer.schedule(FileChangedHandler(), path='D:\ThinhProject\C2SE07Cap2-BE-ChatBot\\', recursive=True)
     observer.start()
-    socket.run(app)
+    socket.run(app,debug= True)
 
     observer.stop()
     observer.join()

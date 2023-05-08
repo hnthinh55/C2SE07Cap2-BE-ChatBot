@@ -118,7 +118,7 @@ class FileChangedHandler(FileSystemEventHandler):
             print('"python app.py"')
 def start_observer():
     observer = Observer()
-    observer.schedule(FileChangedHandler(), path='E:\Chatbot-app\C2SE07Cap2-BE-ChatBot\\', recursive=True)
+    observer.schedule(FileChangedHandler(), path='D:\ThinhProject\C2SE07Cap2-BE-ChatBot\\', recursive=True)
     observer.start()
 
     # Chạy observer trong khi Flask Server đang chạy
@@ -149,9 +149,9 @@ def get_bot_response():
 
 if __name__ == "__main__":
     observer = Observer()
-    observer.schedule(FileChangedHandler(), path='E:\Chatbot-app\C2SE07Cap2-BE-ChatBot\\', recursive=True)
+    observer.schedule(FileChangedHandler(), path='D:\ThinhProject\C2SE07Cap2-BE-ChatBot\\', recursive=True)
     observer.start()
-    socket.run(app)
+    socket.run(app,debug= True)
 
     observer.stop()
     observer.join()
