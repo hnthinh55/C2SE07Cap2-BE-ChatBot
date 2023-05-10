@@ -1,28 +1,28 @@
 {
   "intents": [
     {
-      "tag": "greeting",
-      "patterns": [ "Hi there", "How are you", "Is anyone there?", "Hey", "Hola", "Hello", "Good day" ],
-      "responses": [ "Hello, thanks for asking", "Good to see you again", "Hi there, how can I help?" ],
-      "context": [ "" ]
+    "tag": "chào",
+    "patterns": [ "Xin chào", "Bạn khỏe không?", "Có ai ở đó không?", "Chào", "Hola", "Hello", "Chào buổi sáng" ],
+    "responses": [ "Xin chào, rất vui khi được gặp bạn", "Rất vui được gặp lại bạn", "Chào bạn, tôi có thể giúp gì cho bạn?" ],
+    "context": [ "" ]
     },
     {
-      "tag": "goodbye",
-      "patterns": [ "Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time" ],
-      "responses": [ "See you!", "Have a nice day", "Bye! Come back again soon." ],
-      "context": [ "" ]
+    "tag": "tạm_biệt",
+    "patterns": [ "Tạm biệt", "Hẹn gặp lại sau", "Hẹn gặp lại", "Rất vui được trò chuyện với bạn, tạm biệt", "Đến lần sau" ],
+    "responses": [ "Hẹn gặp lại!", "Chúc bạn một ngày tốt lành", "Tạm biệt! Hẹn sớm gặp lại bạn." ],
+    "context": [ "" ]
     },
     {
-      "tag": "thanks",
-      "patterns": [ "Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me" ],
-      "responses": [ "Happy to help!", "Any time!", "My pleasure" ],
-      "context": [ "" ]
+    "tag": "cảm_ơn",
+    "patterns": [ "Cảm ơn", "Thank you", "Rất hữu ích", "Tuyệt vời, cảm ơn", "Cảm ơn vì đã giúp đỡ tôi" ],
+    "responses": [ "Rất vui được giúp đỡ!", "Bất cứ lúc nào bạn cần!", "Hân hạnh được giúp đỡ" ],
+    "context": [ "" ]
     },
     {
-      "tag": "options",
-      "patterns": [ "How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered" ],
-      "responses": [ "I can guide you through Adverse drug reaction list, Blood pressure tracking, Hospitals and Pharmacies", "Offering support for Adverse drug reaction, Blood pressure, Hospitals and Pharmacies" ],
+      "tag": "chức_năng",
+      "patterns": [ "bạn có những chức năng gì?", "bạn có thể hỗ trợ tôi những gì? ", "tôi có thể biết được thông tin gì từ bạn" ],
+      "responses": [ "Tôi có thể tư vấn về chăm sóc cây trồng qua các giai đoạn, thông tin thời tiết và thông tin sản phẩm trên trang web chúng tôi. Hi vọng những thông tin này có thể giúp ích cho bạn", "Tôi có thể tư vấn cho bạn một số thông tin hữu ích về chăm sóc cây trồng dựa vào thời tiết 7 ngày tới, thông tin các sản phẩm có trên trang web chúng tôi"],
       "context": [ "" ]
-    }
-  ]
+      }
+    ]
 }

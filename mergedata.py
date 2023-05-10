@@ -9,7 +9,7 @@ with open('./data/cham_soc.json', 'r') as f3:
     data3 = json.load(f3)
 with open('./data/trong_trot.json', 'r') as f4:
     data4 = json.load(f4)   
-with open('./data/basic_comunication.json', 'r') as f5:
+with open('./data/basic_comunication.json', 'r', encoding='utf-8') as f5:
     data5 = json.load(f5)
 with open('./data/weather.json', 'r') as f6:
     data6 = json.load(f6)
