@@ -42,19 +42,21 @@ def Thong_tin_sp():
         json.dump(root_element, outfile)
 
     print("Data saved to product.json")
-def Thong_tin_sp():
-    prefixes = ["các sản phẩm ", "cho tôi thông tin về ", "loại sản phẩm "]
+k= Thong_tin_sp()
+print(k)
+
+def Thong_tin_category_sp():
+    prefixes = ["các sản phẩm", "cho tôi thông tin về", "loại sản phẩm"]
     data = []
     for result in list_category:
-        lis_item=["<p>Đây là danh sách các sản phẩm"+result+"có trong cửa hàng chúng tôi: </p>"]
+        lis_item="<p>Đây là danh sách các sản phẩm"+result+" có trong cửa hàng chúng tôi: </p>"
         for item in list_category[result]:
             output="<p><strong>"+item[0]+":</strong></p>"+"<p>- Nơi sản xuất: "+item[1]+"</p><p>- Giá: "+str(item[2])+" VND</p>"+"<p>- Số lượng hàng hóa:" + str(item[3])+ item[7]+"</p>"
-            lis_item.append(output)
-        
+            lis_item= lis_item + output
         data.append({
             "tag": result.replace(" ", "_"),
             "patterns": [prefixes[0]+' '+result, prefixes[1]+' '+result, prefixes[2]+' '+result],
-            "responses": lis_item,
+            "responses": [lis_item],
             "context": []
         })
     for d in data:
@@ -65,6 +67,6 @@ def Thong_tin_sp():
     with open("./data/category.json", "w") as outfile:
         json.dump(root_element, outfile)
 
-    print("Data saved to product.json")
-k= Thong_tin_sp()
-print(k)
+    print("Data saved to category.json")
+k1= Thong_tin_category_sp()
+print(k1)

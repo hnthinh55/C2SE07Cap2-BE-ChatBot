@@ -12,11 +12,19 @@ from flask_socketio import SocketIO, emit
 def my_task():
     # Thêm code của bạn để chạy sau mỗi 30 phút vào đây
   
-    subprocess.run("python weather.py", shell=True)
-    subprocess.run("python apiservice.py", shell=True)
-    subprocess.run("python mergedata.py", shell=True)
-    subprocess.run("python training.py", shell=True)
+    processes = []
+    processes.append(subprocess.Popen("python weather.py", shell=True))
+    processes.append(subprocess.Popen("python apiservice.py", shell=True))
+    processes.append(subprocess.Popen("python product-tra.py", shell=True))
+    processes.append(subprocess.Popen("python mergedata.py", shell=True))
+    processes.append(subprocess.Popen("python training.py", shell=True))
+    
+    time.sleep(5)
     print("Scheduler is running...")
+
+    for process in processes:
+        process.wait()
+        process.terminate()
 class FileChangedHandler(FileSystemEventHandler):
     def __init__(self):
         self.updated = False
@@ -29,10 +37,11 @@ class FileChangedHandler(FileSystemEventHandler):
                 self.updating = False
                 print('data.json saved')
                 print('Stopping Flask API...')
-                subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True)
+                subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True).wait()
+                subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True).terminate()
                 time.sleep(10)
                 print('Starting Flask API...')
-                subprocess.Popen('python app.py', shell= True)
+                subprocess.Popen('python app.py', shell= True).wait()
                 print('"python app.py"')
             else:
                 self.updating = True
@@ -41,8 +50,8 @@ class FileChangedHandler(FileSystemEventHandler):
         if event.src_path.endswith('data.json') and self.updating:
             self.updating =False
             print('Stopping Flask API...')
-            subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True)
-            time.sleep(1)
+            subprocess.Popen('taskkill /f /fi "imagename eq python.exe"', shell=True)
+            time.sleep(5)
             print('Starting Flask API...')
             subprocess.Popen('python app.py', shell=True)
             print('"python app.py"')
@@ -61,7 +70,7 @@ def start_observer():
     observer.join()
 socket = SocketIO(app)
 if __name__ == '__main__':
-    scheduler.add_job(my_task, 'interval', minutes=2)
+    scheduler.add_job(my_task, 'interval', minutes=5)
     scheduler.start()
     # Dừng scheduler khi tắt Flask app
     atexit.register(lambda: scheduler.shutdown(wait=False))

@@ -86,49 +86,6 @@ def chatbot_response(msg):
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
     return res
-
-class FileChangedHandler(FileSystemEventHandler):
-    def __init__(self):
-        self.updated = False
-        self.updating =False
-        super().__init__()
-    def on_modified(self, event):
-        if event.src_path.endswith('data.json'):
-            print('data.json is modified')
-            if self.updating:
-                self.updating = False
-                print('data.json saved')
-                print('Stopping Flask API...')
-                subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True)
-                time.sleep(10)
-                print('Starting Flask API...')
-                subprocess.Popen('python app.py', shell= True)
-                print('"python app.py"')
-            else:
-                self.updating = True
-                print('data.json updating')
-    def on_closed(self, event):
-        if event.src_path.endswith('data.json') and self.updating:
-            self.updating =False
-            print('Stopping Flask API...')
-            subprocess.Popen('taskkill /f /fi "imagename eq app.py"', shell=True)
-            time.sleep(1)
-            print('Starting Flask API...')
-            subprocess.Popen('python app.py', shell=True)
-            print('"python app.py"')
-def start_observer():
-    observer = Observer()
-    observer.schedule(FileChangedHandler(), path='D:\ThinhProject\C2SE07Cap2-BE-ChatBot\\', recursive=True)
-    observer.start()
-
-    # Chạy observer trong khi Flask Server đang chạy
-    try:
-        while True:
-            observer.join(1)
-    except KeyboardInterrupt:
-        observer.stop()
-
-    observer.join()
 app = Flask(__name__)
 CORS(app)
 socket= SocketIO(app)
@@ -148,10 +105,5 @@ def get_bot_response():
 
 
 if __name__ == "__main__":
-    observer = Observer()
-    observer.schedule(FileChangedHandler(), path='D:\ThinhProject\C2SE07Cap2-BE-ChatBot\\', recursive=True)
-    observer.start()
     socket.run(app,debug= True)
 
-    observer.stop()
-    observer.join()
