@@ -21,10 +21,6 @@ def my_task():
     
     time.sleep(5)
     print("Scheduler is running...")
-
-    for process in processes:
-        process.wait()
-        process.terminate()
 class FileChangedHandler(FileSystemEventHandler):
     def __init__(self):
         self.updated = False
@@ -70,12 +66,12 @@ def start_observer():
     observer.join()
 socket = SocketIO(app)
 if __name__ == '__main__':
-    scheduler.add_job(my_task, 'interval', minutes=5)
+    scheduler.add_job(my_task, 'interval', minutes=720)
     scheduler.start()
     # Dừng scheduler khi tắt Flask app
     atexit.register(lambda: scheduler.shutdown(wait=False))
     observer = Observer()
-    observer.schedule(FileChangedHandler(), path='D:\ThinhProject\C2SE07Cap2-BE-ChatBot\\', recursive=True)
+    observer.schedule(FileChangedHandler(), path='E:\Chatbot-app\C2SE07Cap2-BE-ChatBot\\', recursive=True)
     observer.start()
     socket.run(app,debug= True)
 
